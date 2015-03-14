@@ -97,14 +97,14 @@ show_p([H | T]) ->
 
 
 intersect({set,List1},{set,List2}) ->
-  L = [X || X <- List1, Y <- List2, X=:=Y],
+  L = [X || X <- List1, isin_p(List2,X)],
   {set,L}.
 
 union(Set1,Set2) ->
   not_yet.
 
 diff({set,List1},{set,List2}) ->
-  L = [X || X <- List1, Y <- List2, X=/=Y],
+  L = [X || X <- List1, not isin_p(List2, X)],
   {set,L}.
 
 
