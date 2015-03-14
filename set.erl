@@ -11,7 +11,7 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
-  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, card/1, isin/2]).
+  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, filter/2 , card/1, isin/2]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -100,7 +100,7 @@ intersect({set,List1},{set,List2}) ->
   L = [X || X <- List1, isin_p(List2,X)],
   {set,L}.
 
-union(Set1,Set2) ->
+union(Set1, Set2) ->
   not_yet.
 
 diff({set,List1},{set,List2}) ->
@@ -136,38 +136,39 @@ min({set,[H | _]}) ->
   H.
 
 
-map({set,List}, Fnc) when is_function(Fnc) ->
+map({set, List}, Fnc) when is_function(Fnc, 1) ->
   {set, [Fnc(X) || X <- List]}.
 
 %% foldl
 
-%% filter
+filter({set, List}, Fnc) when is_function(Fnc, 1) ->
+  {set, [X || X <- List, Fnc(X)]}.
 
 
-card({set,List}) ->
-  card_p(List,0).
+card({set, List}) ->
+  card_p(List, 0).
 
-card_p([],Counter) ->
+card_p([], Counter) ->
   Counter;
-card_p([_ | T],Counter) ->
+card_p([_ | T], Counter) ->
   card_p(T, Counter + 1).
 
 
 isin({set, List}, Ele) when is_number(Ele) ->
   isin_p(List,Ele).
 
-isin_p([],Ele) ->
+isin_p([], _Ele) ->
   false;
 isin_p([H | _T], Ele) when H == Ele ->
   true;
 isin_p([_ | T], Ele) ->
-  isin_p(T,Ele).
+  isin_p(T, Ele).
 
 %% all
 
 %% any
 
-%% prodouct
+%% product
 
 
 %%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
