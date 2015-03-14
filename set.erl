@@ -10,7 +10,8 @@
 -author(raethlo).
 
 %% API
--export([newSet/0, toList/1, toSet/1, insert/2, delete/2, min/1, card/1]).
+-export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
+  intersect/2, union/2, diff/2, min/1, max/1, card/1]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,24 +58,36 @@ delete_p([H | T], Ele, Acc) when H == Ele ->
 delete_p([H | T], Ele, Acc) ->
   delete_p(T, Ele, [H | Acc]).
 
-prec(Set,Ele) ->
-  not_yet.
 
-succ(Set,Ele) ->
-  not_yet.
+prec({set,List},Ele) when is_number(Ele)->
+  prec_p(List,Ele).
+
+prec_p([],Ele) ->
+  nil.
+
+succ({set,List},Ele) ->
+  succ_p(List,Ele,nil).
+
+succ_p([], _Ele, _) ->
+  nil;
+succ_p([H | _], Ele, Before) when Ele == Before ->
+  H;
+succ_p([H | T], Ele, _) ->
+  succ_p(T, Ele, H).
 
 show(Set) ->
-not_yet.
+  not_yet.
 
 intersect({set,List1},{set,List2}) ->
   L = [X || X <- List1, Y <- List2, X=:=Y],
-  toSet(L).
+  {set,L}.
 
 union(Set1,Set2) ->
   not_yet.
 
-diff(Set1,Set2) ->
-  not_yet.
+diff({set,List1},{set,List2}) ->
+  L = [X || X <- List1, Y <- List2, X=/=Y],
+  {set,L}.
 
 equals(Set1,Set2) ->
   not_yet.
