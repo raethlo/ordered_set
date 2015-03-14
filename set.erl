@@ -11,7 +11,8 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
-  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, filter/2 , card/1, isin/2]).
+  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, filter/2 , card/1,
+  isin/2, any/2, product/3]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -100,8 +101,15 @@ intersect({set,List1},{set,List2}) ->
   L = [X || X <- List1, isin_p(List2,X)],
   {set,L}.
 
-union(Set1, Set2) ->
-  not_yet.
+
+union({set, List1}, {set, List2}) ->
+  {set, union_p(List1, List2)}.
+
+union_p([],List) ->
+  List;
+union_p([H | T], List) ->
+  union_p(T, insert_p(List, H, [])).
+
 
 diff({set,List1},{set,List2}) ->
   L = [X || X <- List1, not isin_p(List2, X)],
@@ -166,9 +174,20 @@ isin_p([_ | T], Ele) ->
 
 %% all
 
-%% any
+any({set, List}, Fnc) when is_function(Fnc, 1) ->
+  any_p(List, Fnc).
 
-%% product
+any_p([], _Fnc) ->
+  false;
+any_p([H | T], Fnc) ->
+  Res = Fnc(H),
+  if Res -> true;
+    true -> any_p(T, Fnc)
+  end.
+
+
+product({set, List1}, {set, List2}, Fnc) when is_function(Fnc,2) ->
+  {set, [Fnc(X,Y) || X <- List1, Y <- List2]}.
 
 
 %%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
