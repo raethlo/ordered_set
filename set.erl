@@ -11,7 +11,7 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
-  intersect/2, union/2, diff/2, min/1, max/1, card/1]).
+  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, card/1]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -81,8 +81,20 @@ succ_p([H | T], Ele, _) ->
   succ_p(T, Ele, H).
 
 
-show(Set) ->
-  not_yet.
+show({set, List}) ->
+  io:format("set contains: "),
+  show_p(List).
+
+
+show_p([]) ->
+  io:format("~n");
+show_p([H | []]) ->
+  io:format("~p~n",[H]);
+show_p([H | T]) ->
+  io:format("~p,",[H]),
+  show_p(T).
+
+
 
 intersect({set,List1},{set,List2}) ->
   L = [X || X <- List1, Y <- List2, X=:=Y],
@@ -95,21 +107,49 @@ diff({set,List1},{set,List2}) ->
   L = [X || X <- List1, Y <- List2, X=/=Y],
   {set,L}.
 
-equals(Set1,Set2) ->
-  not_yet.
+
+equals({set, List1}, {set, List2}) ->
+  equals_p(List1, List2).
+
+equals_p([],[]) ->
+  true;
+equals_p([H1 | _T1], [H2 | _T2]) when H1 =/= H2 ->
+  false;
+equals_p([H1 | T1], [H2 | T2]) when H1 == H2 ->
+  equals_p(T1,T2).
+
 
 max({set, List}) ->
   max_p(List).
 
 max_p([]) ->
-  nil.
-%% max_p([H | T]) ->
+  nil;
+max_p([H | []]) ->
+  H;
+max_p([H | T]) ->
+  max_p(T).
+
 
 min({set,[]}) ->
   nil;
 min({set,[H | _]}) ->
   H.
 
+
+map({set,List}, Fnc) when is_function(Fnc) ->
+  {set, [Fnc(X) || X <- List]}.
+
+%% foldl
+
+%% filter
+
+%% isin
+
+%% all
+
+%% any
+
+%% prodouct
 
 card({set,List}) ->
   card_p(List,0).
