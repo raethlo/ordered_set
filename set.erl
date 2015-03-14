@@ -11,9 +11,8 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2]).
-%% -compile(export_all). %% replace with -export() later, for God's sake!
 
-%% SET CREATION FUNCTIONS
+%% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 newSet() -> {set, []}.
 
@@ -31,7 +30,7 @@ toSet_p([_|T], Acc)  ->
   toSet_p(T ,Acc).
 
 
-%% SET MANIPULATION FUNCTIONS
+%% SET MANIPULATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 insert({set, List}, Ele) when is_number(Ele) ->
   {set, insert_p(List, Ele, [])}.
@@ -47,7 +46,7 @@ insert_p([H | T], Ele, Acc) when Ele == H ->
 
 
 delete({set, List}, Ele) when is_number(Ele) ->
-  delete_p(List, Ele, []).
+  {set,delete_p(List, Ele, [])}.
 
 delete_p([],_,[]) ->
   [];
@@ -58,11 +57,12 @@ delete_p([H | T], Ele, Acc) when H == Ele ->
 delete_p([H | T], Ele, Acc) ->
   delete_p(T, Ele, [H | Acc]).
 
-%% HELPERS
+%%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%takes in ordered lists and makes them one
 join(List1, List2) when is_list(List1), is_list(List2) ->
   join_p(reverse(List1), List2).
+
 
 %% expects that the first list is descending and the other is ascending
 %% should work vice-versa
@@ -72,7 +72,6 @@ join_p(List, []) ->
   List;
 join_p([H | T], List) ->
   join_p(T, [H | List]).
-
 
 
 reverse(List) when is_list(List) ->
