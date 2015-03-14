@@ -11,8 +11,8 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
-  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, filter/2 , card/1,
-  isin/2, all/2, any/2, product/3]).
+  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, foldl/3, filter/2,
+  card/1, isin/2, all/2, any/2, product/3]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -29,7 +29,7 @@ toSet_p([], Acc) ->
 toSet_p([H | T], Acc) when is_number(H) ->
   toSet_p(T ,insert_p(Acc, H, []));
 toSet_p([_|T], Acc)  ->
-  toSet_p(T ,Acc).
+  toSet_p(T, Acc).
 
 
 %% SET MANIPULATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -145,9 +145,18 @@ min({set,[H | _]}) ->
 
 
 map({set, List}, Fnc) when is_function(Fnc, 1) ->
-  {set, [Fnc(X) || X <- List]}.
+  L = [Fnc(X) || X <- List],
+  {set, toSet_p(L,[])}.
 
-%% foldl
+
+foldl({set, List}, Fnc, Acc0) when is_function(Fnc,2) ->
+  foldl_p(List, Fnc, Acc0).
+
+foldl_p([],_Fnc,Acc) ->
+  Acc;
+foldl_p([H | T],Fnc, Acc) ->
+  foldl_p(T, Fnc, Fnc(Acc, H)).
+
 
 filter({set, List}, Fnc) when is_function(Fnc, 1) ->
   {set, [X || X <- List, Fnc(X)]}.
@@ -196,7 +205,8 @@ any_p([H | T], Fnc) ->
 
 
 product({set, List1}, {set, List2}, Fnc) when is_function(Fnc,2) ->
-  {set, [Fnc(X,Y) || X <- List1, Y <- List2]}.
+  L = [ Fnc(X,Y) || X <- List1, Y <- List2 ],
+  {set, toSet_p(L,[])}.
 
 
 %%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
