@@ -10,7 +10,7 @@
 -author(raethlo).
 
 %% API
--export([newSet/0, toList/1, toSet/1, insert/2, delete/2]).
+-export([newSet/0, toList/1, toSet/1, insert/2, delete/2, min/1, card/1]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -56,6 +56,49 @@ delete_p([H | T], Ele, Acc) when H == Ele ->
   join_p(Acc,T);
 delete_p([H | T], Ele, Acc) ->
   delete_p(T, Ele, [H | Acc]).
+
+prec(Set,Ele) ->
+  not_yet.
+
+succ(Set,Ele) ->
+  not_yet.
+
+show(Set) ->
+not_yet.
+
+intersect({set,List1},{set,List2}) ->
+  L = [X || X <- List1, Y <- List2, X=:=Y],
+  toSet(L).
+
+union(Set1,Set2) ->
+  not_yet.
+
+diff(Set1,Set2) ->
+  not_yet.
+
+equals(Set1,Set2) ->
+  not_yet.
+
+max({set, List}) ->
+  max_p(List).
+
+max_p([]) ->
+  nil.
+%% max_p([H | T]) ->
+
+min({set,[]}) ->
+  nil;
+min({set,[H | _]}) ->
+  H.
+
+
+card({set,List}) ->
+  card_p(List,0).
+
+card_p([],Counter) ->
+  Counter;
+card_p([_ | T],Counter) ->
+  card_p(T, Counter + 1).
 
 %%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
