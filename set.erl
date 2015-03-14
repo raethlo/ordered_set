@@ -21,10 +21,10 @@ toList({set, List}) ->
   List.
 
 toSet(List) when is_list(List) ->
-  toSet_p(List, []).
+  {set,toSet_p(List, [])}.
 
 toSet_p([], Acc) ->
-  {set, Acc};
+  Acc;
 toSet_p([H | T], Acc) when is_number(H) ->
   toSet_p(T ,insert_p(Acc, H, []));
 toSet_p([_|T], Acc)  ->
@@ -79,6 +79,7 @@ succ_p([H | _], Ele, Before) when Ele == Before ->
   H;
 succ_p([H | T], Ele, _) ->
   succ_p(T, Ele, H).
+
 
 show(Set) ->
   not_yet.
