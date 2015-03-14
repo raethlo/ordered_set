@@ -12,7 +12,7 @@
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
   intersect/2, union/2, diff/2, equals/2 , min/1, max/1, map/2, filter/2 , card/1,
-  isin/2, any/2, product/3]).
+  isin/2, all/2, any/2, product/3]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -172,7 +172,16 @@ isin_p([H | _T], Ele) when H == Ele ->
 isin_p([_ | T], Ele) ->
   isin_p(T, Ele).
 
-%% all
+all({set, List}, Fnc) when is_function(Fnc,1) ->
+  all_p(List,Fnc).
+
+all_p([],_Fnc) ->
+  true;
+all_p([H | T], Fnc) ->
+  Res  = Fnc(H),
+  if not Res -> false;
+    true -> all_p(T,Fnc)
+  end.
 
 any({set, List}, Fnc) when is_function(Fnc, 1) ->
   any_p(List, Fnc).
