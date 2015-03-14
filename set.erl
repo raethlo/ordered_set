@@ -26,7 +26,7 @@ toSet(List) when is_list(List) ->
 
 toSet_p([], Acc) ->
   Acc;
-toSet_p([H | T], Acc) when is_number(H) ->
+toSet_p([H | T], Acc) when is_integer(H) ->
   toSet_p(T ,insert_p(Acc, H, []));
 toSet_p([_|T], Acc)  ->
   toSet_p(T, Acc).
@@ -34,7 +34,7 @@ toSet_p([_|T], Acc)  ->
 
 %% SET MANIPULATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-insert({set, List}, Ele) when is_number(Ele) ->
+insert({set, List}, Ele) when is_integer(Ele) ->
   {set, insert_p(List, Ele, [])}.
 
 insert_p([], Ele, Acc) ->
@@ -47,7 +47,7 @@ insert_p([H | T], Ele, Acc) when Ele == H ->
   join_p(Acc, [H | T]).
 
 
-delete({set, List}, Ele) when is_number(Ele) ->
+delete({set, List}, Ele) when is_integer(Ele) ->
   {set,delete_p(List, Ele, [])}.
 
 delete_p([],_,[]) ->
@@ -60,7 +60,7 @@ delete_p([H | T], Ele, Acc) ->
   delete_p(T, Ele, [H | Acc]).
 
 
-prec({set,List}, Ele) when is_number(Ele)->
+prec({set,List}, Ele) when is_integer(Ele)->
   prec_p(List, Ele, nil).
 
 prec_p([],_Ele, _) ->
@@ -171,7 +171,7 @@ card_p([_ | T], Counter) ->
   card_p(T, Counter + 1).
 
 
-isin({set, List}, Ele) when is_number(Ele) ->
+isin({set, List}, Ele) when is_integer(Ele) ->
   isin_p(List,Ele).
 
 isin_p([], _Ele) ->
