@@ -59,11 +59,16 @@ delete_p([H | T], Ele, Acc) ->
   delete_p(T, Ele, [H | Acc]).
 
 
-prec({set,List},Ele) when is_number(Ele)->
-  prec_p(List,Ele).
+prec({set,List}, Ele) when is_number(Ele)->
+  prec_p(List, Ele, nil).
 
-prec_p([],Ele) ->
-  nil.
+prec_p([],_Ele, _) ->
+  nil;
+prec_p([H | T], Ele, Before) when Ele == H ->
+  Before;
+prec_p([H | T], Ele, _) ->
+  prec_p(T, Ele, H).
+
 
 succ({set,List},Ele) ->
   succ_p(List,Ele,nil).
