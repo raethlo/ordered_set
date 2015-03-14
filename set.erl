@@ -10,7 +10,7 @@
 -author(raethlo).
 
 %% API
--export([newSet/0, insert/2, reverse/1, join/2]).
+-export([newSet/0, toList/1, insert/2, reverse/1, join/2]).
 %% -compile(export_all). %% replace with -export() later, for God's sake!
 
 
@@ -19,21 +19,29 @@ newSet() -> {set,[]}.
 toList({set,List}) ->
   List.
 
+%% toSet(List) when is_list(List) ->
+%%   toSet_p(List,[]).
+%%
+%% toSet_p([],Acc) ->
+%%   {set,reverse(Acc)};
+%% toSet_p(List,Acc) ->
+%%   in.
+
+
 
 %% SET MANIPULATION FUNCTIONS
 
 insert({set, List}, Ele) when is_number(Ele) ->
-  insert_p(List, Ele, []).
+  {set,insert_p(List, Ele, [])}.
 
 insert_p([],Ele,Acc) ->
-  {set,reverse([Ele | Acc])};
+  reverse([Ele | Acc]);
 insert_p( [H | T] , Ele, Acc) when Ele < H ->
-  List = join(Acc, [Ele | [H| T]] ),
-  {set, List};
+  join(Acc, [Ele | [H| T]] );
 insert_p( [H | T], Ele, Acc) when Ele > H ->
   insert_p(T, Ele, [H | Acc]);
 insert_p([H | T], Ele, Acc) when Ele == H ->
-  {set,join(Acc, [H | T])}.
+  join(Acc, [H | T]).
 
 %% HELPERS
 
