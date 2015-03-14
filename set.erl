@@ -71,7 +71,7 @@ prec_p([H | T], Ele, _) ->
   prec_p(T, Ele, H).
 
 
-succ({set,List},Ele) ->
+succ({set,List},Ele) when is_integer(Ele) ->
   succ_p(List,Ele,nil).
 
 succ_p([], _Ele, _) ->
@@ -219,8 +219,6 @@ join(List1, List2) when is_list(List1), is_list(List2) ->
 %% expects that the first list is descending and the other is ascending
 %% should work vice-versa
 join_p([], List) ->
-  List;
-join_p(List, []) ->
   List;
 join_p([H | T], List) ->
   join_p(T, [H | List]).
