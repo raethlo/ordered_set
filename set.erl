@@ -11,7 +11,7 @@
 
 %% API
 -export([newSet/0, toList/1, toSet/1, insert/2, delete/2, prec/2, succ/2, show/1,
-  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, card/1]).
+  intersect/2, union/2, diff/2, equals/2 , min/1, max/1, card/1, isin/2]).
 
 %% SET CREATION FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -143,13 +143,6 @@ map({set,List}, Fnc) when is_function(Fnc) ->
 
 %% filter
 
-%% isin
-
-%% all
-
-%% any
-
-%% prodouct
 
 card({set,List}) ->
   card_p(List,0).
@@ -158,6 +151,24 @@ card_p([],Counter) ->
   Counter;
 card_p([_ | T],Counter) ->
   card_p(T, Counter + 1).
+
+
+isin({set, List}, Ele) when is_number(Ele) ->
+  isin_p(List,Ele).
+
+isin_p([],Ele) ->
+  false;
+isin_p([H | _T], Ele) when H == Ele ->
+  true;
+isin_p([_ | T], Ele) ->
+  isin_p(T,Ele).
+
+%% all
+
+%% any
+
+%% prodouct
+
 
 %%% HELPERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
