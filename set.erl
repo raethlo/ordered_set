@@ -44,7 +44,7 @@ insert_p([H | T], Ele, Acc) when Ele < H ->
 insert_p([H | T], Ele, Acc) when Ele > H ->
   insert_p(T, Ele, [H | Acc]);
 insert_p([H | T], Ele, Acc) when Ele == H ->
-  join(Acc, [H | T]).
+  join_p(Acc, [H | T]).
 
 
 delete({set, List}, Ele) when is_number(Ele) ->
