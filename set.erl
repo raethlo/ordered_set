@@ -121,6 +121,10 @@ equals({set, List1}, {set, List2}) ->
 
 equals_p([],[]) ->
   true;
+equals_p([], _List) ->
+  false;
+equals_p(_List, []) ->
+  false;
 equals_p([H1 | _T1], [H2 | _T2]) when H1 =/= H2 ->
   false;
 equals_p([H1 | T1], [H2 | T2]) when H1 == H2 ->
@@ -134,7 +138,7 @@ max_p([]) ->
   nil;
 max_p([H | []]) ->
   H;
-max_p([H | T]) ->
+max_p([_H | T]) ->
   max_p(T).
 
 
