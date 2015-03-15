@@ -149,8 +149,7 @@ min({set,[H | _]}) ->
 
 
 map({set, List}, Fnc) when is_function(Fnc, 1) ->
-  L = [Fnc(X) || X <- List],
-  toSet_p(L,[]).
+  [Fnc(X) || X <- List].
 
 
 foldl({set, List}, Fnc, Acc0) when is_function(Fnc,2) ->
