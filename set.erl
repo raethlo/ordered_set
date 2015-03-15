@@ -158,7 +158,7 @@ foldl({set, List}, Fnc, Acc0) when is_function(Fnc,2) ->
 foldl_p([],_Fnc,Acc) ->
   Acc;
 foldl_p([H | T],Fnc, Acc) ->
-  foldl_p(T, Fnc, Fnc(Acc, H)).
+  foldl_p(T, Fnc, Fnc(H, Acc)).
 
 
 filter({set, List}, Fnc) when is_function(Fnc, 1) ->
